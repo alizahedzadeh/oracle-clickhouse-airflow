@@ -1,0 +1,2 @@
+oracledb==2.4.1
+clickhouse-connect==0.8.3

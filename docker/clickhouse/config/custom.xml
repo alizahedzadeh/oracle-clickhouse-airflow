@@ -1,0 +1,9 @@
+<clickhouse>
+    <!-- Local dev tuning: keep the single-node container light and quiet. -->
+    <listen_host>0.0.0.0</listen_host>
+    <mark_cache_size>536870912</mark_cache_size>
+    <logger>
+        <level>warning</level>
+        <console>true</console>
+    </logger>
+</clickhouse>
