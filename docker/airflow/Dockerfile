@@ -1,12 +1,6 @@
 FROM apache/airflow:2.9.3-python3.11
 
-USER root
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends build-essential libaio1 \
-    && apt-get autoremove -yqq --purge \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-USER airflow
+# oracledb runs in thin mode (pure Python) and clickhouse-connect ships
+# prebuilt wheels, so no system build toolchain or Oracle client is needed.
 COPY requirements.txt /requirements.txt
 RUN pip install --no-cache-dir -r /requirements.txt
