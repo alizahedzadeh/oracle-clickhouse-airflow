@@ -9,6 +9,7 @@ x-airflow-common: &airflow-common
     AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW__CORE__FERNET_KEY:-}
     AIRFLOW__CORE__LOAD_EXAMPLES: "false"
     AIRFLOW__API__AUTH_BACKENDS: "airflow.api.auth.backend.basic_auth"
+    PYTHONPATH: /opt/airflow/src
     ORACLE_HOST: ${ORACLE_HOST:-oracle}
     ORACLE_PORT: ${ORACLE_PORT:-1521}
     ORACLE_SERVICE_NAME: ${ORACLE_SERVICE_NAME:-FREEPDB1}
@@ -118,7 +119,11 @@ services:
       ORACLE_PASSWORD: ${ORACLE_PASSWORD:-oracle_pw}
       APP_USER: ${ORACLE_APP_USER:-app_user}
       APP_USER_PASSWORD: ${ORACLE_APP_USER_PASSWORD:-app_pw}
-      ORACLE_DATABASE: ${ORACLE_SERVICE_NAME:-FREEPDB1}
+      # ORACLE_DATABASE is intentionally unset: the image already ships a
+      # default pluggable database named FREEPDB1 (which is what
+      # ORACLE_SERVICE_NAME points at), so setting ORACLE_DATABASE to the
+      # same name makes the entrypoint try to create a second FREEPDB1 and
+      # fail with ORA-65012 (pluggable database already exists).
     volumes:
       - oracle-data:/opt/oracle/oradata
       - ./sql/oracle/init:/container-entrypoint-initdb.d
