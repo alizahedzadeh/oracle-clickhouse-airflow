@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS analytics.orders
     order_id     UInt64,
     customer_id  UInt64,
     order_status LowCardinality(String),
-    order_date   DateTime,
+    order_date   Date,
     amount       Decimal(18, 2),
     country      LowCardinality(String),
     updated_at   DateTime,
